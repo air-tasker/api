@@ -69,9 +69,24 @@ class App {
                         validation: this.graphInputValidation
                     },
                     formatError: (error) => {
-                        console.log(JSON.parse(error.message));
+
+                        let message;
+
+                        function IsJsonString(str) {
+                            try {
+                                JSON.parse(error.message);
+                            } catch (e) {
+                                return false;
+                            }
+                            return true;
+                        }
+
+                        message = IsJsonString(error.message) ? JSON.parse(error.message) : error.message;
+
+                        console.log(message);
+
                         return {
-                            error: JSON.parse(error.message),
+                            error: message,
                             path: error.path
                         }
                     }
