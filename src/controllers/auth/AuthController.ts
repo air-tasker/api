@@ -60,8 +60,9 @@ export default class AuthController
         });
 
         if (result.error){
+            context.validation.getError(null,result.error.details[0].message);
 
-            return context.res.send(result.error.details);
+            return context.validation;
         }
 
         try {
@@ -86,12 +87,13 @@ export default class AuthController
         });
 
         if (result.error){
+            context.validation.getError(null,result.error.details[0].message);
 
-            return context.res.send(result.error.details);
+            return context.validation;
         }
 
         try {
-            let login = await this.bll.login(args.email, args.password)
+            let login = await this.bll.login(args.email, args.password);
 
             if (login.auth) {
 
