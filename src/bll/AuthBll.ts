@@ -28,11 +28,11 @@ export default  class AuthBll
         }
     }
 
-    public async register(name:string, phone:string, password:string)
+    public async register(username:string, email:string, password:string, birthyear:number)
     {
-        let hasPassword = bcrypt.hashSync(password, 8);
+        let hashPassword = bcrypt.hashSync(password, 8);
 
-        let user = await this.dal.register(name, phone, hasPassword);
+        let user = await this.dal.register(username, email, hashPassword, birthyear);
 
         let payload = {
             id: user.id
@@ -47,7 +47,35 @@ export default  class AuthBll
             auth: true,
             token: token,
             username: user.username,
-            phone: user.phone
+            email: user.email
         };
+    }
+
+    public async login(email:string, password:string)
+    {
+        let user = await this.dal.login(email);
+
+        let passwordIsValid = bcrypt.compareSync(password, user.password);
+
+        if (!passwordIsValid) {
+            return {
+                auth: false,
+                token: ''
+            }
+        } else {
+
+            let payload = ({
+                id: user.id
+            });
+
+            let token = await jwt.sign(payload, process.env.AUTH_SECRET, {
+                expiresIn: 30 * 86400 // expires in 30 days
+            });
+
+            return {
+                auth: true,
+                token: token
+            }
+        }
     }
 }

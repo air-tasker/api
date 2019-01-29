@@ -13,10 +13,13 @@ export class User {
     username: string;
 
     @Column()
-    phone: string;
+    email: string;
 
     @Column()
     password: string;
+
+    @Column()
+    birthyear: number;
 
     @Column("int")
     active: number;

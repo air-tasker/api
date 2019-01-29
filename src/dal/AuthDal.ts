@@ -1,4 +1,4 @@
-import {getCustomRepository} from "typeorm";
+import {getCustomRepository, getRepository} from "typeorm";
 import UserRepository from "../repository/User";
 
 export default class AuthDal
@@ -27,16 +27,24 @@ export default class AuthDal
         }
     }
 
-    public async register(name:string, phone:string, password:string)
+    public async register(username:string, email:string, password:string, birthyear:number)
     {
         let user = this.userRepository.create();
 
-        user.username = name;
-        user.phone = phone;
+        user.username = username;
+        user.email = email;
         user.password = password;
+        user.birthyear = birthyear;
         user.active = 1;
 
         return this.userRepository.save(user);
 
+    }
+
+    public login(email:string)
+    {
+        let conditions = {email: email};
+
+        return this.userRepository.findOne(conditions)
     }
 }
