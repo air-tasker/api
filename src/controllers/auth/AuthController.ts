@@ -76,6 +76,20 @@ export default class AuthController
 
     public async actionLogin(args, context)
     {
+        let schema = Joi.object().keys({
+            email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
+        });
+
+        let result = Joi.validate(args, schema, {
+            abortEarly: false
+        });
+
+        if (result.error){
+
+            return context.res.send(result.error.details);
+        }
+
         try {
             return await this.bll.login(args.email, args.password)
 
