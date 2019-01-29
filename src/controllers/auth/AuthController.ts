@@ -91,7 +91,17 @@ export default class AuthController
         }
 
         try {
-            return await this.bll.login(args.email, args.password)
+            let login = await this.bll.login(args.email, args.password)
+
+            if (login.auth) {
+
+                return context.res.status(200).send(login)
+            } else {
+
+                context.validation.addError(1);
+
+                return context.validation;
+            }
 
         } catch (e) {
             console.log(e)
