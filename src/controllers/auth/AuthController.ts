@@ -46,9 +46,7 @@ export default class AuthController
     public actionRegister(args, context)
     {
         try {
-            let register  = this.bll.register(args.name, args.phone, args.password);
-
-            return register;
+            return this.bll.register(args.name, args.phone, args.password);
 
         }
         catch (e) {

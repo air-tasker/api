@@ -11,7 +11,7 @@ module.exports = makeExecutableSchema({
             login (phone: String!, password: String!): Login!
         }
         type User {
-            name: String
+            name: String 
         }
         type Me {
             username: String!,

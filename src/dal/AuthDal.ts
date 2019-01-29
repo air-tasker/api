@@ -38,6 +38,5 @@ export default class AuthDal
 
         return this.userRepository.save(user);
 
-        console.log(user);
     }
 }

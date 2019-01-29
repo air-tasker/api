@@ -69,9 +69,10 @@ class App {
                         validation: this.graphInputValidation
                     },
                     formatError: (error) => {
-                        console.log(JSON.parse(error.message));
+                        console.log(error)
+                        // console.log(JSON.parse(error.message));
                         return {
-                            error: JSON.parse(error.message),
+                            // error: JSON.parse(error.message),
                             path: error.path
                         }
                     }
