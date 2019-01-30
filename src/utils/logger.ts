@@ -12,10 +12,11 @@ const logger = winston.createLogger({
     ]
 });
 
-exports.logErrors = (err, req, res, next) => {
-    console.error(err.stack);
-
-    logger.log('error', err.stack);
-
-    //res.sendStatus(500);
+export default class Logger
+{
+    public logErrors (err)
+    {
+        logger.log('error', err.stack);
+        console.log('log: ', err)
+    }
 }

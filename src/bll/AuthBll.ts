@@ -72,10 +72,10 @@ export default  class AuthBll
                 expiresIn: 30 * 86400 // expires in 30 days
             });
 
-            return {
-                auth: true,
-                token: token
-            }
+            // return {
+            //     auth: true,
+            //     token: token
+            // }
         }
     }
 }

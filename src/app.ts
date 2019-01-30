@@ -4,6 +4,7 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import AuthController from "./controllers/auth/AuthController";
 import inputValidation from "./utils/graphql/inputValidation";
+import Logger from "./utils/logger";
 import {promises} from "fs";
 
 var graphqlHTTP = require('express-graphql');
@@ -11,16 +12,17 @@ const schema = require('./graphql/schemas');
 const cors = require('cors');
 const helmet = require('helmet');
 
-
 class App {
 
     public app: express.Application;
     public graphInputValidation;
+    public graphLogger;
 
     constructor() {
         this.app = express();
 
         this.graphInputValidation = new inputValidation();
+        this.graphLogger = new Logger();
 
         this.config();
         this.init();
@@ -40,6 +42,7 @@ class App {
         this.app.use(bodyParser.json());
         //support application/x-www-form-urlencoded post data
         this.app.use(bodyParser.urlencoded({ extended: false }));
+
     }
 
     public async init() {
@@ -55,9 +58,9 @@ class App {
             login: auth.actionLogin.bind(auth)
         };
 
-
-        this.app.use('/graphql', cors(), graphqlHTTP((request, response, graphQLParams) => {
-
+        this.app.use('/graphql', cors(), graphqlHTTP((request, response, graphQLParams, next) => {
+// console.log(graphQLParams);
+// next()
             this.graphInputValidation.errors = [];
 
                 return {
@@ -67,11 +70,14 @@ class App {
                     context: {
                         req: request,
                         res: response,
-                        validation: this.graphInputValidation
+                        validation: this.graphInputValidation,
+                        logger: this.graphLogger,
                     },
                     formatError: (error) => {
 
                         let message;
+
+                        // console.log(error)
 
                         function IsJsonString(str) {
                             try {
@@ -94,6 +100,10 @@ class App {
                 }
             }
         ));
+
+        this.app.use(() => {
+            console.log('heeee')
+        })
     }
 }
 

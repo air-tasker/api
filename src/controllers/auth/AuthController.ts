@@ -60,7 +60,9 @@ export default class AuthController
         });
 
         if (result.error){
-            context.validation.getError(null,result.error.details[0].message);
+            result.error.details.map((error) => {
+                context.validation.addError(null, error.message);
+            });
 
             return context.validation;
         }
@@ -70,10 +72,10 @@ export default class AuthController
 
         }
         catch (e) {
-            console.log(e);
-            // next(e);
+            context.logger.logErrors(e)
         }
     }
+
 
     public async actionLogin(args, context)
     {
@@ -86,8 +88,11 @@ export default class AuthController
             abortEarly: false
         });
 
+
         if (result.error){
-            context.validation.getError(null,result.error.details[0].message);
+            result.error.details.map((error) => {
+                context.validation.addError(null, error.message);
+            });
 
             return context.validation;
         }
@@ -106,7 +111,7 @@ export default class AuthController
             }
 
         } catch (e) {
-            console.log(e)
+            context.logger.logErrors(e)
         }
     }
 }

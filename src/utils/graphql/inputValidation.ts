@@ -36,9 +36,9 @@ export default  class inputValidation extends Error {
         }
     }
 
-    public addError = (code) => {
+    public addError = (code, msg) => {
 
-        let error = this.createResponse(code);
+        let error = this.createResponse(code, msg);
 
         this.errors.push(error);
 
