@@ -15,13 +15,11 @@ const helmet = require('helmet');
 class App {
 
     public app: express.Application;
-    public graphInputValidation;
     public graphLogger;
 
     constructor() {
         this.app = express();
 
-        this.graphInputValidation = new inputValidation();
         this.graphLogger = new Logger();
 
         this.config();
@@ -61,7 +59,7 @@ class App {
         this.app.use('/graphql', cors(), graphqlHTTP((request, response, graphQLParams, next) => {
 // console.log(graphQLParams);
 // next()
-            this.graphInputValidation.errors = [];
+            console.log('\n---------------------------------------\n')
 
                 return {
                     schema: schema,
@@ -70,7 +68,6 @@ class App {
                     context: {
                         req: request,
                         res: response,
-                        validation: this.graphInputValidation,
                         logger: this.graphLogger,
                     },
                     formatError: (error) => {

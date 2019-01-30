@@ -3,37 +3,48 @@ import AuthDal from '../../dal/AuthDal';
 
 const Joi = require('joi');
 import AuthSchema from './AuthSchema';
+import BaseController from "../BaseController";
 
-export default class AuthController
+export default class AuthController extends BaseController
 {
     protected bll: AuthBll;
 
     constructor() {
-
+        super();
         this.bll = new AuthBll(new AuthDal());
     }
 
     public me(args, context) {
+        
+        this.validation.reset();
 
-        context.validation.addError(1);
-        context.validation.addError(2);
+        this.validation.addError(null, 'xsxsxssxs');
+        this.validation.addError(2);
 
-        console.log(context.validation)+"\n\n\n\n\n\n\n";
+        console.log(this.validation)+"\n\n\n\n\n\n\n";
 
         // console.log(this.validation.message);
 
-        return context.validation;
+        return this.validation;
 
     }
 
     public async actionUser(args, context) {
 
         try {
+            this.validation.errors = [];
+            this.validation.addError(3);
+
+            console.log(this.validation)+"\n\n\n\n\n\n\n";
+
+            // console.log(this.validation.message);
+
+            return this.validation;
 
             let user = await this.bll.getUser(1);
 
             if (!user) {
-                return context.validation.getError('not found');
+                return this.validation.getError('not found');
             }
 
             return user;
@@ -43,8 +54,15 @@ export default class AuthController
         }
     }
 
+    /**
+     *
+     * @param args
+     * @param context
+     */
     public actionRegister(args, context)
     {
+        context.logger.info('test');
+
         let schema = Joi.object().keys({
             username: Joi.string().alphanum().min(3).max(30).required(),
             password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
@@ -53,18 +71,13 @@ export default class AuthController
             email: Joi.string().email({ minDomainAtoms: 2 }).required()
         });
 
-        let result = Joi.validate(args, schema, {
-            // options: {
-                abortEarly: false
-            // }
-        });
+        let result = this.joiValidate(args, schema);
 
         if (result.error){
-            result.error.details.map((error) => {
-                context.validation.addError(null, error.message);
-            });
 
-            return context.validation;
+            this.validation.addErrors(result.error.details);
+
+            return this.validation;
         }
 
         try {
@@ -91,10 +104,10 @@ export default class AuthController
 
         if (result.error){
             result.error.details.map((error) => {
-                context.validation.addError(null, error.message);
+                this.validation.addError(null, error.message);
             });
 
-            return context.validation;
+            return this.validation;
         }
 
         try {
@@ -105,9 +118,10 @@ export default class AuthController
                 return context.res.status(200).send(login)
             } else {
 
-                context.validation.addError(1);
+                this.validation.addError(1);
 
-                return context.validation;
+                return context.res.status(200).send(login)
+                return this.validation;
             }
 
         } catch (e) {

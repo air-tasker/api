@@ -45,6 +45,13 @@ export default  class inputValidation extends Error {
         this.message = JSON.stringify(this.errors);
     };
 
+    public addErrors = (errors) => {
+
+        errors.map((error) => {
+            this.addError(null, error.message);
+        });
+    };
+
     public getError = (code, msg) => {
 
         let error  = this.createResponse(code, msg);
@@ -52,5 +59,10 @@ export default  class inputValidation extends Error {
         this.message = JSON.stringify([error]);
 
         return this;
+    }
+
+    public reset() {
+
+        this.errors = [];
     }
 }
