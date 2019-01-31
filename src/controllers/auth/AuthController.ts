@@ -61,31 +61,31 @@ export default class AuthController extends BaseController
      */
     public actionRegister(args, context)
     {
-        context.logger.info('test');
-
-        let schema = Joi.object().keys({
-            username: Joi.string().alphanum().min(3).max(30).required(),
-            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
-            access_token: [Joi.string(), Joi.number()],
-            birthyear: Joi.number().integer().min(1900).max(2013).required(),
-            email: Joi.string().email({ minDomainAtoms: 2 }).required()
-        });
-
-        let result = this.joiValidate(args, schema);
-
-        if (result.error){
-
-            this.validation.addErrors(result.error.details);
-
-            return this.validation;
-        }
-
         try {
+            context.logger.info('xxx');
+
+            let schema = Joi.object().keys({
+                username: Joi.string().alphanum().min(3).max(30).required(),
+                password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+                access_token: [Joi.string(), Joi.number()],
+                birthyear: Joi.number().integer().min(1900).max(2013).required(),
+                email: Joi.string().email({ minDomainAtoms: 2 }).required()
+            });
+
+            let result = this.joiValidate(args, schema.t);
+
+            if (result.error){
+
+                this.validation.addErrors(result.error.details);
+
+                return this.validation;
+            }
+
             return this.bll.register(args.username, args.email, args.password, args.birthyear);
 
         }
         catch (e) {
-            context.logger.logErrors(e)
+            context.logger.error(e)
         }
     }
 
