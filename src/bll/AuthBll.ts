@@ -1,10 +1,12 @@
 import AuthDal from '../dal/AuthDal';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+import
+import {EmployerIndividual} from "../entity/EmployerIndividual";
 
 export default  class AuthBll
 {
-    protected dal:AuthDal;
+    public dal:AuthDal;
 
     constructor(dal:AuthDal) {
 
@@ -28,9 +30,13 @@ export default  class AuthBll
         }
     }
 
-    public async register(username:string, email:string, password:string, birthyear:number)
+    public async registerEmployerIndividual(model: EmployerIndividual)
     {
         let hashPassword = bcrypt.hashSync(password, 8);
+
+        let user = this.dal.userRepository.create();
+
+        user.first_name = args.
 
         let user = await this.dal.register(username, email, hashPassword, birthyear);
 

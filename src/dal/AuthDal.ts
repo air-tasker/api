@@ -27,7 +27,7 @@ export default class AuthDal
         }
     }
 
-    public async register(username:string, email:string, password:string, birthyear:number)
+    public async createUser(first_name:string, email:string, password:string, birthyear:number)
     {
         let user = this.userRepository.create();
 
@@ -38,6 +38,11 @@ export default class AuthDal
         user.active = 1;
 
         return this.userRepository.save(user);
+
+    }
+
+    public async createEmployerIndividual() {
+
 
     }
 

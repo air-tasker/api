@@ -7,7 +7,16 @@ module.exports = makeExecutableSchema({
             me: Me
         }
         type Mutation {
-            register(username: String!, email: String!, password: String!, birthyear: Int!): Me!,
+        
+            register_employer_individual(
+                first_name: String!, 
+                last_name: String!, 
+                email: String!, 
+                phone: String!, 
+                password: String!, 
+                password_repeat: String!
+            ): Me!
+            
             login (email: String!, password: String!): Login!
         }
         type User {

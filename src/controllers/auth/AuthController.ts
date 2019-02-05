@@ -59,29 +59,31 @@ export default class AuthController extends BaseController
      * @param args
      * @param context
      */
-    public actionRegister(args, context)
+    public actionRegisterEmployerIndividual(args, context)
     {
         try {
-            context.logger.info('xxx');
 
             let schema = Joi.object().keys({
-                username: Joi.string().alphanum().min(3).max(30).required(),
+                first_name: Joi.string().alphanum().min(3).max(255).required(),
+                last_name: Joi.string().alphanum().min(3).max(255).required(),
+                email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+                phone: Joi.string().required(),
                 password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
-                access_token: [Joi.string(), Joi.number()],
-                birthyear: Joi.number().integer().min(1900).max(2013).required(),
-                email: Joi.string().email({ minDomainAtoms: 2 }).required()
+                password_repeat: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
             });
 
-            let result = this.joiValidate(args, schema.t);
+            let result = this.joiValidate(args, schema);
 
             if (result.error){
-
-                this.validation.addErrors(result.error.details);
 
                 return this.validation;
             }
 
-            return this.bll.register(args.username, args.email, args.password, args.birthyear);
+            let model = this.bll.dal.userRepository.create();
+
+            model.load(args);
+
+            return this.bll.register(model);
 
         }
         catch (e) {

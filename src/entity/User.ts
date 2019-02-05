@@ -1,5 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
-
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
 
 @Entity()
 export class User {
@@ -10,17 +9,30 @@ export class User {
     @Column({
         length: 255
     })
-    username: string;
+    first_name: string;
+
+    @Column()
+    last_name: string;
 
     @Column()
     email: string;
 
     @Column()
-    password: string;
+    phone: string;
 
     @Column()
-    birthyear: number;
+    password: string;
 
-    @Column("int")
-    active: number;
+    @CreateDateColumn()
+    created_date: number;
+
+    @UpdateDateColumn()
+    updated_date: number;
+
+    @Column({
+        type: "enum",
+        enum: [0, 1],
+        default: 1
+    })
+    active: 0 | 1
 }
