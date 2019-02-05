@@ -23,9 +23,8 @@ module.exports = makeExecutableSchema({
             name: String 
         }
         type Me {
-            username: String!
+            first_name: String!
             email: String!
-            token: String!
         }
         type Login {
             auth: Boolean!

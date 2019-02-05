@@ -50,10 +50,10 @@ class App {
         const auth = await new AuthController();
 
         var root = {
-            users: auth.actionUser.bind(auth),
+            // users: auth.actionUser.bind(auth),
             me: auth.me.bind(auth),
-            register: auth.actionRegister.bind(auth),
-            login: auth.actionLogin.bind(auth)
+            register_employer_individual: auth.actionRegisterEmployerIndividual.bind(auth)
+            // login: auth.actionLogin.bind(auth)
         };
 
         this.app.use('/graphql', cors(), graphqlHTTP((request, response, graphQLParams, next) => {

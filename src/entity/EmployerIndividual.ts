@@ -2,7 +2,7 @@ import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "type
 import {User} from "./User";
 
 @Entity()
-export class EmployerIndividual extends User{
+export class EmployerIndividual {
 
     @PrimaryGeneratedColumn()
     id: number;
