@@ -87,7 +87,7 @@ class App {
 
                         message = IsJsonString(error.message) ? JSON.parse(error.message) : error.message;
 
-                        console.log(message);
+                        console.log('MESSAGEEEEEE: ',message);
 
                         return {
                             error: message,

@@ -1,3 +1,5 @@
+import EmployerIndividualRepository from "../dal/EmployerIndividualRepository";
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 import {EmployerIndividual} from "../entity/EmployerIndividual";
@@ -8,9 +10,11 @@ import {getCustomRepository} from "typeorm";
 export default  class AuthBll
 {
     public userDal:UserRepository;
+    public employerIndividualDal:EmployerIndividualRepository;
 
     constructor() {
 
+        this.employerIndividualDal = getCustomRepository(EmployerIndividualRepository);
         this.userDal = getCustomRepository(UserRepository);
     }
 
@@ -33,29 +37,25 @@ export default  class AuthBll
 
     public async registerEmployerIndividual(model: EmployerIndividual)
     {
-        // let hashPassword = bcrypt.hashSync(password, 8);
-        //
-        // let user = this.dal.userRepository.create();
-        //
-        // user.first_name = args.
-        //
-        // let user = await this.dal.register(username, email, hashPassword, birthyear);
-        //
-        // let payload = {
-        //     id: user.id
-        // };
-        //
-        // let token = jwt.sign(payload, process.env.AUTH_SECRET, {
-        //         expiresIn: 30 * 86400 // expires in 30 days
-        //     }
-        // );
+        model.password = bcrypt.hashSync(model.password, 8);
 
-        // return {
-        //     auth: true,
-        //     token: token,
-        //     username: user.username,
-        //     email: user.email
-        // };
+        await this.employerIndividualDal.save(model);
+
+        let payload = {
+            id: model.id
+        };
+
+        let token = jwt.sign(payload, process.env.AUTH_SECRET, {
+                expiresIn: 30 * 86400 // expires in 30 days
+            }
+        );
+        //
+        return {
+            auth: true,
+            token: token,
+            first_name: model.first_name,
+            email: model.email
+        };
     }
 
     // public async login(email:string, password:string)

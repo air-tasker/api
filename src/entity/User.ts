@@ -23,6 +23,8 @@ export class User {
     @Column()
     password: string;
 
+    password_repeat: string;
+
     @CreateDateColumn()
     created_date: number;
 
@@ -34,5 +36,7 @@ export class User {
         enum: [0, 1],
         default: 1
     })
-    active: 0 | 1
+    active: 0 | 1;
+
+
 }

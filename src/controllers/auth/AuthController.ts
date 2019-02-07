@@ -3,6 +3,7 @@ import AuthBll from '../../bll/AuthBll';
 const Joi = require('joi');
 import AuthSchema from './AuthSchema';
 import BaseController from "../BaseController";
+import {EmployerIndividual} from "../../entity/EmployerIndividual";
 
 export default class AuthController extends BaseController
 {
@@ -14,7 +15,12 @@ export default class AuthController extends BaseController
     }
 
     public me(args, context) {
-        
+
+        return {
+            first_name: "zzz",
+            email: "zzzzz"
+        }
+
         this.validation.reset();
 
         this.validation.addError(null, 'xsxsxssxs');
@@ -61,38 +67,25 @@ export default class AuthController extends BaseController
     public actionRegisterEmployerIndividual(args, context)
     {
         try {
-            let model = this.bll.userDal.create();
+            let model = new EmployerIndividual().load(args);
 
-            model.first_name = 'zzzz';
+            // return context.res.status(200).send(model)
 
-            console.log(model);
+            let schema = this.bll.employerIndividualDal.validateInput(model);
 
-            return context.res.send(model);
+            if (schema.error){
 
-            let schema = Joi.object().keys({
-                first_name: Joi.string().alphanum().min(3).max(255).required(),
-                last_name: Joi.string().alphanum().min(3).max(255).required(),
-                email: Joi.string().email({ minDomainAtoms: 2 }).required(),
-                phone: Joi.string().required(),
-                password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
-                password_repeat: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
-            });
-
-            let result = this.joiValidate(args, schema);
-
-            if (result.error){
+                this.validation.addErrors(schema.error.details);
 
                 return this.validation;
             }
 
-            // let model = this.bll.dal.userRepository.create();
 
-            // model.load(args);
-
-            // return this.bll.registerEmployerIndividual(model);
+            return this.bll.registerEmployerIndividual(model);
 
         }
         catch (e) {
+            console.log(e);
             context.logger.error(e)
         }
     }
