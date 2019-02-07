@@ -67,11 +67,14 @@ export default class AuthController extends BaseController
     public actionRegisterEmployerIndividual(args, context)
     {
         try {
-            let model = new EmployerIndividual().load(args);
+            let model = new EmployerIndividual();
 
-            // return context.res.status(200).send(model)
+            model.load(args);
+            let schema = model.validateInput();
 
-            let schema = this.bll.employerIndividualDal.validateInput(model);
+            // return context.res.status(200).send(schema)
+
+            // let schema = this.bll.employerIndividualDal.validateInput(model);
 
             if (schema.error){
 

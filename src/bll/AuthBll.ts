@@ -37,7 +37,15 @@ export default  class AuthBll
 
     public async registerEmployerIndividual(model: EmployerIndividual)
     {
-        model.password = bcrypt.hashSync(model.password, 8);
+        let userModel = new User();
+
+        userModel.load(model);
+
+        userModel.password = bcrypt.hashSync(model.password, 8);
+
+        await this.userDal.save(userModel);
+
+        model.user = userModel;
 
         await this.employerIndividualDal.save(model);
 

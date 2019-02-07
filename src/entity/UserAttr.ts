@@ -9,15 +9,14 @@ export class UserAttr
 
     load(obj) {
 
-        let user = this;
-        user.first_name = obj.first_name;
-        user.last_name = obj.last_name;
-        user.email = obj.email;
-        user.phone = obj.phone;
-        user.password = obj.password;
-        user.password_repeat = obj.password_repeat;
+        this.first_name = obj.first_name;
+        this.last_name = obj.last_name;
+        this.email = obj.email;
+        this.phone = obj.phone;
+        this.password = obj.password;
+        this.password_repeat = obj.password_repeat;
 
-        return user;
+        return this;
     }
 
 }

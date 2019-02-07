@@ -1,7 +1,8 @@
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import {UserAttr} from "./UserAttr";
 
 @Entity()
-export class User {
+export class User extends UserAttr {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -22,8 +23,6 @@ export class User {
 
     @Column()
     password: string;
-
-    password_repeat: string;
 
     @CreateDateColumn()
     created_date: number;

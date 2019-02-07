@@ -11,16 +11,16 @@ export class EmployerIndividual extends UserAttr{
 
     @OneToOne(type => User)
     @JoinColumn()
-    user_id: User;
+    user: User;
 
     load(obj) {
 
-        let user = super.load(obj);
+        super.load(obj);
 
-        return user;
+        return this;
     }
 
-    validateInput(model:EmployerIndividual, options = {}) {
+    validateInput(options = {}) {
 
 
         let schema = Joi.object().keys({
@@ -32,7 +32,7 @@ export class EmployerIndividual extends UserAttr{
             password_repeat: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         });
 
-        return Joi.validate(model, schema, {
+        return Joi.validate(this, schema, {
             abortEarly: false,
             ...options
         });
