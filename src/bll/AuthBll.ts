@@ -1,4 +1,5 @@
 import EmployerIndividualRepository from "../dal/EmployerIndividualRepository";
+import {getManager} from "typeorm";
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -43,11 +44,14 @@ export default  class AuthBll
 
         userModel.password = bcrypt.hashSync(model.password, 8);
 
-        await this.userDal.save(userModel);
+        await getManager().transaction(async transactionalEntityManager => {
 
-        model.user = userModel;
+            await transactionalEntityManager.save(userModel);
 
-        await this.employerIndividualDal.save(model);
+            model.user = userModel;
+
+            await transactionalEntityManager.save(model);
+        });
 
         let payload = {
             id: model.id

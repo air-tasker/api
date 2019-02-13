@@ -64,17 +64,13 @@ export default class AuthController extends BaseController
      * @param args
      * @param context
      */
-    public actionRegisterEmployerIndividual(args, context)
+    public async actionRegisterEmployerIndividual(args, context)
     {
         try {
             let model = new EmployerIndividual();
 
             model.load(args);
             let schema = model.validateInput();
-
-            // return context.res.status(200).send(schema)
-
-            // let schema = this.bll.employerIndividualDal.validateInput(model);
 
             if (schema.error){
 
@@ -84,11 +80,10 @@ export default class AuthController extends BaseController
             }
 
 
-            return this.bll.registerEmployerIndividual(model);
+            return await this.bll.registerEmployerIndividual(model);
 
         }
         catch (e) {
-            console.log(e);
             context.logger.error(e)
         }
     }
