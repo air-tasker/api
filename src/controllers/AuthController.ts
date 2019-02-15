@@ -1,9 +1,8 @@
-import AuthBll from '../../bll/AuthBll';
+import AuthBll from '../bll/AuthBll';
 
 const Joi = require('joi');
-import AuthSchema from './AuthSchema';
-import BaseController from "../BaseController";
-import {EmployerIndividual} from "../../entity/EmployerIndividual";
+import BaseController from "./BaseController";
+import {EmployerIndividual} from "../entity/EmployerIndividual";
 
 export default class AuthController extends BaseController
 {
@@ -16,40 +15,40 @@ export default class AuthController extends BaseController
 
     public me(args, context) {
 
-        return {
-            first_name: "zzz",
-            email: "zzzzz"
-        }
+        // return {
+        //     first_name: "zzz",
+        //     email: "zzzzz"
+        // }
 
-        this.validation.reset();
+        // context.validation.reset();
 
-        this.validation.addError(null, 'xsxsxssxs');
-        this.validation.addError(2);
+        context.validation.addError(null, 'xsxsxssxs');
+        context.validation.addError(2);
 
-        console.log(this.validation)+"\n\n\n\n\n\n\n";
+        console.log(context.validation)+"\n\n\n\n\n\n\n";
 
-        // console.log(this.validation.message);
+        // console.log(context.validation.message);
 
-        return this.validation;
+        return context.validation;
 
     }
 
     // public async actionUser(args, context) {
     //
     //     try {
-    //         this.validation.errors = [];
-    //         this.validation.addError(3);
+    //         context.validation.errors = [];
+    //         context.validation.addError(3);
     //
-    //         console.log(this.validation)+"\n\n\n\n\n\n\n";
+    //         console.log(context.validation)+"\n\n\n\n\n\n\n";
     //
-    //         // console.log(this.validation.message);
+    //         // console.log(context.validation.message);
     //
-    //         return this.validation;
+    //         return context.validation;
     //
     //         let user = await this.bll.getUser(1);
     //
     //         if (!user) {
-    //             return this.validation.getError('not found');
+    //             return context.validation.getError('not found');
     //         }
     //
     //         return user;
@@ -76,9 +75,9 @@ export default class AuthController extends BaseController
 
             if (schema.error){
 
-                this.validation.addErrors(schema.error.details);
+                context.validation.addErrors(schema.error.details);
 
-                return this.validation;
+                return context.validation;
             }
 
 
@@ -88,16 +87,16 @@ export default class AuthController extends BaseController
 
             if(register.hasOwnProperty('error')) {
 
-                this.validation.addError(9);
+                context.validation.addError(register.error);
 
-                return this.validation;
+                return context.validation;
             }
 
             return register;
 
         }
         catch (e) {
-            context.logger.error(e)
+            this.logger.error(e)
         }
     }
 
@@ -116,10 +115,10 @@ export default class AuthController extends BaseController
     //
     //     if (result.error){
     //         result.error.details.map((error) => {
-    //             this.validation.addError(null, error.message);
+    //             context.validation.addError(null, error.message);
     //         });
     //
-    //         return this.validation;
+    //         return context.validation;
     //     }
     //
     //     try {
@@ -130,10 +129,10 @@ export default class AuthController extends BaseController
     //             return context.res.status(200).send(login)
     //         } else {
     //
-    //             this.validation.addError(1);
+    //             context.validation.addError(1);
     //
     //             return context.res.status(200).send(login)
-    //             return this.validation;
+    //             return context.validation;
     //         }
     //
     //     } catch (e) {

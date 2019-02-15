@@ -1,20 +1,12 @@
-import inputValidation from '../utils/response/httpResponse';
-const Joi = require('joi');
+import Logger from "../utils/logger";
 
 export default class  BaseController
 {
-    validation;
+    public logger: Logger;
 
     constructor() {
 
-        this.validation = new inputValidation();
+        this.logger = new Logger();
     }
 
-    public joiValidate(args, schema, options={}) {
-
-        return Joi.validate(args, schema, {
-            abortEarly: false,
-            ...options
-        });
-    }
 }

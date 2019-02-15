@@ -24,7 +24,6 @@ export default class httpResponse extends Error {
     public createResponse = (code = null, msg = '') => {
 
         if(code) {
-            console.log({inputValidationMessages});
             let res = inputValidationMessages[code];
 
             res = Object.assign({status: code}, res);
@@ -40,8 +39,6 @@ export default class httpResponse extends Error {
     public addError = (code, msg) => {
 
         let error = this.createResponse(code, msg);
-
-        console.log('res: ',error);
 
         this.errors.push(error);
 

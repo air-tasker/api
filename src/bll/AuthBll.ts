@@ -43,15 +43,17 @@ export default  class AuthBll
 
         userModel.load(model);
 
-        let user = await this.userDal.findOne({email: userModel.email, phone: userModel.phone}) || {};
+        let user = await this.userDal.findOne({
+            email: userModel.email,
+            phone: userModel.phone,
+            active: 1
+        }) || {};
 
         if(user.hasOwnProperty('id')) {
             return {
                 error: errorCodes.USER_ALREADY_EXISTS
             }
         }
-
-        console.log('user: ',user);
 
         userModel.password = bcrypt.hashSync(model.password, 8);
 
@@ -72,6 +74,8 @@ export default  class AuthBll
                 expiresIn: 30 * 86400 // expires in 30 days
             }
         );
+        console.log({model});
+        console.log({userModel});
         //
         return {
             auth: true,

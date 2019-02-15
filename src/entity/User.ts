@@ -33,7 +33,7 @@ export class User extends UserAttr {
     @Column({
         type: "enum",
         enum: [0, 1],
-        default: 1
+        default: 0
     })
     active: 0 | 1;
 
