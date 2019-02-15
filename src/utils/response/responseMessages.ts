@@ -1,7 +1,9 @@
-module.exports = {
+import errors from './errors';
+
+let messages = {
     1: {
         msg: 'Phone or password is incorrect',
-        detail: 'graphql://wwww.taxi.com/api/doc/client2'
+        detail: 'response://wwww.taxi.com/api/doc/client2'
     },
     2: {
         msg: 'User not found'
@@ -24,5 +26,11 @@ module.exports = {
     },
     8: {
         msg: 'File mimeType isn\'t correct.'
-    },
+    }
 }
+
+messages[errors.USER_ALREADY_EXISTS] = {
+    msg: 'User already exists'
+};
+
+export default messages;

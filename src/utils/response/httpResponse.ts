@@ -1,6 +1,6 @@
-const inputValidationMessages = require('./inputValidationMessages');
+import inputValidationMessages from './responseMessages';
 
-export default  class inputValidation extends Error {
+export default class httpResponse extends Error {
 
     public errors:Array<object>;
 
@@ -24,6 +24,7 @@ export default  class inputValidation extends Error {
     public createResponse = (code = null, msg = '') => {
 
         if(code) {
+            console.log({inputValidationMessages});
             let res = inputValidationMessages[code];
 
             res = Object.assign({status: code}, res);
@@ -39,6 +40,8 @@ export default  class inputValidation extends Error {
     public addError = (code, msg) => {
 
         let error = this.createResponse(code, msg);
+
+        console.log('res: ',error);
 
         this.errors.push(error);
 

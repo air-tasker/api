@@ -72,6 +72,8 @@ export default class AuthController extends BaseController
             model.load(args);
             let schema = model.validateInput();
 
+            console.log('schema: ',schema.error);
+
             if (schema.error){
 
                 this.validation.addErrors(schema.error.details);
@@ -80,7 +82,18 @@ export default class AuthController extends BaseController
             }
 
 
-            return await this.bll.registerEmployerIndividual(model);
+            let register = await this.bll.registerEmployerIndividual(model);
+
+            console.log('register: ',register);
+
+            if(register.hasOwnProperty('error')) {
+
+                this.validation.addError(9);
+
+                return this.validation;
+            }
+
+            return register;
 
         }
         catch (e) {

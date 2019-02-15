@@ -3,7 +3,7 @@ import * as bodyParser from "body-parser";
 import "reflect-metadata";
 import {createConnection} from "typeorm";
 import AuthController from "./controllers/auth/AuthController";
-import inputValidation from "./utils/graphql/inputValidation";
+import inputValidation from "./utils/response/httpResponse";
 import Logger from "./utils/logger";
 import {promises} from "fs";
 
@@ -74,7 +74,7 @@ class App {
 
                         let message;
 
-                        // console.log(error)
+                        console.log('error: ',error)
 
                         function IsJsonString(str) {
                             try {

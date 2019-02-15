@@ -7,6 +7,7 @@ import {EmployerIndividual} from "../entity/EmployerIndividual";
 import {User} from "../entity/User";
 import UserRepository from "../dal/UserRepository";
 import {getCustomRepository} from "typeorm";
+import errorCodes from '../utils/response/errors';
 
 export default  class AuthBll
 {
@@ -41,6 +42,16 @@ export default  class AuthBll
         let userModel = new User();
 
         userModel.load(model);
+
+        let user = await this.userDal.findOne({email: userModel.email, phone: userModel.phone}) || {};
+
+        if(user.hasOwnProperty('id')) {
+            return {
+                error: errorCodes.USER_ALREADY_EXISTS
+            }
+        }
+
+        console.log('user: ',user);
 
         userModel.password = bcrypt.hashSync(model.password, 8);
 

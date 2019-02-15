@@ -1,4 +1,4 @@
-import inputValidation from '../utils/graphql/inputValidation';
+import inputValidation from '../utils/response/httpResponse';
 const Joi = require('joi');
 
 export default class  BaseController
