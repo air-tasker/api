@@ -46,7 +46,7 @@ class App {
 
         var root = {
             // users: auth.actionUser.bind(auth),
-            me: auth.me.bind(auth),
+            // me: auth.me.bind(auth),
             register_employer_individual: auth.actionRegisterEmployerIndividual.bind(auth)
             // login: auth.actionLogin.bind(auth)
         };

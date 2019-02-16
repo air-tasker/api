@@ -6,6 +6,7 @@ export class UserAttr
     phone: string;
     password: string;
     password_repeat: string;
+    access_token: string;
 
     load(obj) {
 
@@ -19,4 +20,8 @@ export class UserAttr
         return this;
     }
 
+    loadOutput() {
+
+
+    }
 }

@@ -37,7 +37,7 @@ export default  class AuthBll
     //     }
     // }
 
-    public async registerEmployerIndividual(model: EmployerIndividual)
+    public async registerEmployerIndividual(model: EmployerIndividual):Promise<any>
     {
         let userModel = new User();
 
@@ -74,15 +74,21 @@ export default  class AuthBll
                 expiresIn: 30 * 86400 // expires in 30 days
             }
         );
-        console.log({model});
-        console.log({userModel});
+        // console.log({model});
+        // console.log({userModel});
+
+        model.id = userModel.id;
+        model.access_token = token;
+
+        console.log(model);
+        return model;
         //
-        return {
-            auth: true,
-            token: token,
-            first_name: model.first_name,
-            email: model.email
-        };
+        // return {
+        //     auth: true,
+        //     token: token,
+        //     first_name: model.first_name,
+        //     email: model.email
+        // };
     }
 
     // public async login(email:string, password:string)

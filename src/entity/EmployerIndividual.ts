@@ -20,6 +20,10 @@ export class EmployerIndividual extends UserAttr{
         return this;
     }
 
+    loadOutput() {
+
+    }
+
     validateInput(options = {}) {
 
 
