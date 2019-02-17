@@ -70,25 +70,14 @@ export default  class AuthBll
             id: model.id
         };
 
-        let token = jwt.sign(payload, process.env.AUTH_SECRET, {
+        model.access_token = jwt.sign(payload, process.env.AUTH_SECRET, {
                 expiresIn: 30 * 86400 // expires in 30 days
             }
         );
-        // console.log({model});
-        // console.log({userModel});
 
         model.id = userModel.id;
-        model.access_token = token;
 
-        console.log(model);
         return model;
-        //
-        // return {
-        //     auth: true,
-        //     token: token,
-        //     first_name: model.first_name,
-        //     email: model.email
-        // };
     }
 
     // public async login(email:string, password:string)

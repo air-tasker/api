@@ -7,9 +7,7 @@ export class User extends UserAttr {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({
-        length: 255
-    })
+    @Column()
     first_name: string;
 
     @Column()
@@ -25,7 +23,7 @@ export class User extends UserAttr {
     password: string;
 
     @CreateDateColumn()
-    created_date: number;
+    created_date: Date;
 
     @UpdateDateColumn()
     updated_date: number;

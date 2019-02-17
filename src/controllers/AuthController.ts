@@ -69,21 +69,17 @@ export default class AuthController extends BaseController
             let model = new EmployerIndividual();
 
             model.load(args);
-            let schema = model.validateInput();
 
-            console.log('schema: ',schema.error);
+            let validation = this.joiValidate(model, model.schema());
 
-            if (schema.error){
+            if (validation.error){
 
-                context.validation.addErrors(schema.error.details);
+                context.validation.addErrors(validation.error.details);
 
                 return context.validation;
             }
 
-
             let register = await this.bll.registerEmployerIndividual(model);
-
-            console.log('register: ',register);
 
             if(register.hasOwnProperty('error')) {
 

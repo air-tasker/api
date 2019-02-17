@@ -1,3 +1,5 @@
+const Joi = require('joi');
+
 export class UserAttr
 {
     first_name: string;
@@ -20,8 +22,15 @@ export class UserAttr
         return this;
     }
 
-    loadOutput() {
+    schema() {
 
-
+        return Joi.object().keys({
+            first_name: Joi.string().alphanum().min(3).max(255).required(),
+            last_name: Joi.string().alphanum().min(3).max(255).required(),
+            email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+            phone: Joi.string().required(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required(),
+            password_repeat: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required()
+        });
     }
 }
