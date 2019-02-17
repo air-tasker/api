@@ -26,11 +26,17 @@ let messages = {
     },
     8: {
         msg: 'File mimeType isn\'t correct.'
+    },
+    [errors.USER_NOT_FOUND]: {
+        msg: 'User not found'
+    },
+    [errors.USER_ALREADY_EXISTS]: {
+        msg: 'User already exists'
+    },
+    [errors.INVALID_AUTHENTICATION_CREDENTIALS] : {
+        auth: false,
+        msg: 'Invalid authentication credentials'
     }
 }
-
-messages[errors.USER_ALREADY_EXISTS] = {
-    msg: 'User already exists'
-};
 
 export default messages;

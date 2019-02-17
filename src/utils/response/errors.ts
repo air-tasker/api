@@ -1,3 +1,5 @@
 export default Object.freeze({
-    USER_ALREADY_EXISTS: 9
+    USER_ALREADY_EXISTS: 9,
+    USER_NOT_FOUND: 10,
+    INVALID_AUTHENTICATION_CREDENTIALS: 11
 })

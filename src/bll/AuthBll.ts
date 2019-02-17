@@ -8,6 +8,7 @@ import {User} from "../entity/User";
 import UserRepository from "../dal/UserRepository";
 import {getCustomRepository} from "typeorm";
 import errorCodes from '../utils/response/errors';
+import Login from "../entity/Login";
 
 export default  class AuthBll
 {
@@ -20,34 +21,16 @@ export default  class AuthBll
         this.userDal = getCustomRepository(UserRepository);
     }
 
-    // public async getUser(user_id: number) {
-    //
-    //     try {
-    //
-    //         let user = await this.dal.getUsers(user_id);
-    //
-    //         if (!user) {
-    //             return;
-    //         }
-    //
-    //         return user;
-    //     }
-    //     catch (e) {
-    //         console.log(e);
-    //     }
-    // }
-
     public async registerEmployerIndividual(model: EmployerIndividual):Promise<any>
     {
         let userModel = new User();
 
         userModel.load(model);
 
-        let user = await this.userDal.findOne({
-            email: userModel.email,
-            phone: userModel.phone,
-            active: 1
-        }) || {};
+        let user = await this.userDal.findbyEmailAndPhone(
+            userModel.email,
+            userModel.phone
+        );
 
         if(user.hasOwnProperty('id')) {
             return {
@@ -80,31 +63,33 @@ export default  class AuthBll
         return model;
     }
 
-    // public async login(email:string, password:string)
-    // {
-    //     let user = await this.dal.login(email);
-    //
-    //     let passwordIsValid = bcrypt.compareSync(password, user.password);
-    //
-    //     if (!passwordIsValid) {
-    //         return {
-    //             auth: false,
-    //             token: ''
-    //         }
-    //     } else {
-    //
-    //         let payload = ({
-    //             id: user.id
-    //         });
-    //
-    //         let token = await jwt.sign(payload, process.env.AUTH_SECRET, {
-    //             expiresIn: 30 * 86400 // expires in 30 days
-    //         });
-    //
-    //         // return {
-    //         //     auth: true,
-    //         //     token: token
-    //         // }
-    //     }
-    // }
+    public async login(model:Login):Promise<any>
+    {
+        let user = await this.userDal.findByEmail(model.email);
+
+        if(Object.keys(user).length === 0) {
+
+            return {
+                error: errorCodes.USER_NOT_FOUND
+            }
+        }
+
+        let passwordIsValid = bcrypt.compareSync(model.password, user.password);
+
+        if (!passwordIsValid) {
+            return {
+                error: errorCodes.INVALID_AUTHENTICATION_CREDENTIALS
+            }
+        }
+
+        let payload = ({
+            id: user.id
+        });
+
+        user.access_token = await jwt.sign(payload, process.env.AUTH_SECRET, {
+            expiresIn: 30 * 86400 // expires in 30 days
+        });
+
+        return user;
+    }
 }

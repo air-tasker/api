@@ -45,10 +45,9 @@ class App {
         const auth = await new AuthController();
 
         var root = {
-            // users: auth.actionUser.bind(auth),
             // me: auth.me.bind(auth),
-            register_employer_individual: auth.actionRegisterEmployerIndividual.bind(auth)
-            // login: auth.actionLogin.bind(auth)
+            register_employer_individual: auth.actionRegisterEmployerIndividual.bind(auth),
+            login: auth.actionLogin.bind(auth)
         };
 
         this.app.use('/graphql', cors(), graphqlHTTP((request, response, graphQLParams, next) => {
@@ -68,8 +67,6 @@ class App {
 
                         let message;
 
-                        // console.log('error: ',error)
-
                         function IsJsonString(str) {
                             try {
                                 JSON.parse(error.message);
@@ -81,8 +78,6 @@ class App {
 
                         message = IsJsonString(error.message) ? JSON.parse(error.message) : error.message;
 
-                        console.log('MESSAGEEEEEE: ',message);
-
                         return {
                             error: message,
                             path: error.path
@@ -91,10 +86,6 @@ class App {
                 }
             }
         ));
-
-        this.app.use(() => {
-            console.log('heeee')
-        })
     }
 }
 

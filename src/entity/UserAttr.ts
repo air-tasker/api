@@ -12,12 +12,12 @@ export class UserAttr
 
     load(obj) {
 
-        this.first_name = obj.first_name;
-        this.last_name = obj.last_name;
-        this.email = obj.email;
-        this.phone = obj.phone;
-        this.password = obj.password;
-        this.password_repeat = obj.password_repeat;
+        this.first_name = obj.first_name || null;
+        this.last_name = obj.last_name || null;
+        this.email = obj.email || null;
+        this.phone = obj.phone || null;
+        this.password = obj.password || null;
+        this.password_repeat = obj.password_repeat || null;
 
         return this;
     }

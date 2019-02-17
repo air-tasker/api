@@ -2,7 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColu
 import {UserAttr} from "./UserAttr";
 
 @Entity()
-export class User extends UserAttr {
+export class User extends UserAttr{
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -14,7 +14,7 @@ export class User extends UserAttr {
     last_name: string;
 
     @Column()
-    email: string;
+    email: string;Interface
 
     @Column()
     phone: string;
@@ -26,7 +26,7 @@ export class User extends UserAttr {
     created_date: Date;
 
     @UpdateDateColumn()
-    updated_date: number;
+    updated_date: Date;
 
     @Column({
         type: "enum",
